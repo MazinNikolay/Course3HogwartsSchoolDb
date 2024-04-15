@@ -2,6 +2,7 @@ package pro.sky.myHomeworks.Course3HogwartsScoolDb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.StudentService;
@@ -38,14 +39,10 @@ public class StudentController {
 
     @DeleteMapping("{id}")
     @Operation(summary = "Удаление студента")
-    public Student deleteStudent(@PathVariable Long id) {
-        return service.deleteStudent(id);
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
+        service.deleteStudent(id);
+        return ResponseEntity.ok().body("Успешно удален");
     }
-    /* Для примера
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        return service.getStudent(id) == null ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok(service.deleteStudent(id));
-    }*/
 
     @GetMapping("/sortedByAge/{age}")
     @Operation(summary = "Получение студентов по возрасту")
