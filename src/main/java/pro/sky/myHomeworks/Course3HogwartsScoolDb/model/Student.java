@@ -1,19 +1,27 @@
 package pro.sky.myHomeworks.Course3HogwartsScoolDb.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.lowerCase;
-
+@Entity
 public class Student {
-    private final Long id;
+    @SequenceGenerator(name = "gen", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "gen")
+    private Long id;
+
     private String name;
     private int age;
 
+    public Student() {
+    }
+
     public Student(Long id, String name, int age) {
-        this.id = id;
-        this.name = capitalize(lowerCase(name));
         this.age = age;
+        this.id = id;
+        this.name = name;
     }
 
     public Long getId() {

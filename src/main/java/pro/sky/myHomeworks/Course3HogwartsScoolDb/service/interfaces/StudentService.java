@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student updateStudent(Student student);
 
-    Student deleteStudent(Long id);
+    void deleteStudent(Long id);
 
     List<Student> sortByAge(int age);
 }

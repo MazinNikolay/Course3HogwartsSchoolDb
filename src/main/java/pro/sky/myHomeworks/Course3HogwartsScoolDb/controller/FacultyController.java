@@ -2,6 +2,7 @@ package pro.sky.myHomeworks.Course3HogwartsScoolDb.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.FacultyService;
@@ -38,8 +39,9 @@ public class FacultyController {
 
     @DeleteMapping("{id}")
     @Operation(summary = "Удаление факультета")
-    public Faculty deletefaculty(@PathVariable Long id) {
-        return service.deleteFaculty(id);
+    public ResponseEntity<String> deletefaculty(@PathVariable Long id) {
+        service.deleteFaculty(id);
+        return ResponseEntity.ok().body("Успешно удален");
     }
 
     @GetMapping("/sortedByColor/{color}")
