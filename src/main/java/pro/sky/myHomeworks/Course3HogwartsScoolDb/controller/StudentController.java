@@ -4,18 +4,19 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
-import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.StudentService;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.StudentServiceImpl;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("student")
 @Tag(name = "API для работы со студентами")
 public class StudentController {
-    private final StudentService service;
+    private final StudentServiceImpl service;
 
-    public StudentController(StudentService service) {
+    public StudentController(StudentServiceImpl service) {
         this.service = service;
     }
 
@@ -44,9 +45,16 @@ public class StudentController {
         return ResponseEntity.ok().body("Успешно удален");
     }
 
-    @GetMapping("/sortedByAge/{age}")
-    @Operation(summary = "Получение студентов по возрасту")
-    public List<Student> sortedByAge(@PathVariable int age) {
-        return service.sortByAge(age);
+    @GetMapping("/get-by-age-between")
+    @Operation(summary = "Получение списка студентов по диапазону возраста")
+    public Collection<Student> findByAgeBetween(@RequestParam int val1,
+                                                @RequestParam int val2) {
+        return service.findByAgeBetween(val1, val2);
+    }
+
+    @GetMapping("/faculty/{student}")
+    @Operation(summary = "Получение факультета студента")
+    public Faculty getStudentFaculty(@PathVariable String student) {
+        return service.getStudentFaculty(student);
     }
 }

@@ -1,5 +1,6 @@
 package pro.sky.myHomeworks.Course3HogwartsScoolDb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -12,6 +13,11 @@ public class Student {
             generator = "gen")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    @JsonBackReference
+    private Faculty faculty;
+
     private String name;
     private int age;
 
@@ -19,13 +25,21 @@ public class Student {
     }
 
     public Student(Long id, String name, int age) {
-        this.age = age;
         this.id = id;
+        this.age = age;
         this.name = name;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public String getName() {

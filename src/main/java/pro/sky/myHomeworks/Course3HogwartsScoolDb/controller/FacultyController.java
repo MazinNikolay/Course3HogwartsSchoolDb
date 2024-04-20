@@ -5,17 +5,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
-import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.FacultyService;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.FacultyServiceImpl;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("faculty")
 @Tag(name = "API для работы с факультетами")
 public class FacultyController {
-    private final FacultyService service;
+    private final FacultyServiceImpl service;
 
-    public FacultyController(FacultyService service) {
+    public FacultyController(FacultyServiceImpl service) {
         this.service = service;
     }
 
@@ -44,9 +45,16 @@ public class FacultyController {
         return ResponseEntity.ok().body("Успешно удален");
     }
 
-    @GetMapping("/sortedByColor/{color}")
-    @Operation(summary = "Получение факультетов по цвету")
-    public List<Faculty> sortedByColor(@PathVariable String color) {
-        return service.sortByColor(color);
+    @GetMapping("/get-by-color-or-name")
+    @Operation(summary = "Получение списка факультетов по цвету или по названию")
+    public Collection<Faculty> findByColorOrName(@RequestParam String color,
+                                                 @RequestParam String name) {
+        return service.findByColorOrName(color, name);
+    }
+
+    @GetMapping("/get-students/{faculty}")
+    @Operation(summary = "Получение студентов факультета")
+    public Collection<Student> findByFaculty(@RequestParam String faculty) {
+        return service.findByFaculty(faculty);
     }
 }

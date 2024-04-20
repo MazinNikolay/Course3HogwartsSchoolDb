@@ -3,14 +3,11 @@ package pro.sky.myHomeworks.Course3HogwartsScoolDb.service;
 import org.springframework.stereotype.Service;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.exceptioms.NotFoundEntityException;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.repository.FacultyRepository;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.FacultyService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.lowerCase;
+import java.util.Collection;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -44,13 +41,13 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public List<Faculty> sortByColor(String color) {
-        repository.findAll().stream()
-                .forEach(f -> f.setColor(capitalize(lowerCase(f.getColor()))));
-        String formattedColor = capitalize(lowerCase(color));
-        return repository.findAll().stream()
-                .filter(e -> e.getColor().equals(formattedColor))
-                .collect(Collectors.toList());
+    public Collection<Faculty> findByColorOrName(String color, String name) {
+        return repository.findByColorContainsIgnoreCaseOrNameContainsIgnoreCase(color, name);
+    }
+
+    @Override
+    public Collection<Student> findByFaculty(String name) {
+        return repository.findByNameContainsIgnoreCase(name).getStudents();
     }
 
     private void isEntityExist(Long id) {
