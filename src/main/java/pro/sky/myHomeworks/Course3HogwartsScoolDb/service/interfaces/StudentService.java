@@ -1,8 +1,9 @@
 package pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces;
 
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface StudentService {
     Student createStudent(Student student);
@@ -13,5 +14,7 @@ public interface StudentService {
 
     void deleteStudent(Long id);
 
-    List<Student> sortByAge(int age);
+    Collection<Student> findByAgeBetween(int val1, int val2);
+
+    Faculty getStudentFaculty(String student);
 }

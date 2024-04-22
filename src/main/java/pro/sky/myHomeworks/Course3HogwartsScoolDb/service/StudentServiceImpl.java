@@ -2,12 +2,12 @@ package pro.sky.myHomeworks.Course3HogwartsScoolDb.service;
 
 import org.springframework.stereotype.Service;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.exceptioms.NotFoundEntityException;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.repository.StudentRepository;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.service.interfaces.StudentService;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -42,10 +42,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> sortByAge(int age) {
-        return repository.findAll().stream()
-                .filter(e -> e.getAge() == age)
-                .collect(Collectors.toList());
+    public Collection<Student> findByAgeBetween(int val1, int val2) {
+        return repository.findByAgeBetween(val1, val2);
+    }
+
+    @Override
+    public Faculty getStudentFaculty(String student) {
+        return repository.findByNameContainsIgnoreCase(student).getFaculty();
     }
 
     private void isEntityExist(Long id) {

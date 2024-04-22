@@ -1,8 +1,10 @@
 package pro.sky.myHomeworks.Course3HogwartsScoolDb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Faculty {
@@ -11,6 +13,11 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "gen")
     private Long id;
+
+    @OneToMany(mappedBy = "faculty")
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Student> students;
 
     private String name;
     private String color;
@@ -26,6 +33,14 @@ public class Faculty {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public String getName() {

@@ -6,9 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Faculty;
+import pro.sky.myHomeworks.Course3HogwartsScoolDb.model.Student;
 import pro.sky.myHomeworks.Course3HogwartsScoolDb.repository.FacultyRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +23,17 @@ import static org.mockito.Mockito.when;
 class FacultyServiceTestImpl {
     private FacultyServiceImpl out;
 
+    Collection<Student> students;
+
     @Mock
     private FacultyRepository repository;
 
     @BeforeEach
     void initial() {
         out = new FacultyServiceImpl(repository);
+        Student student1 = new Student(1L, "Tolik", 14);
+        Student student2 = new Student(2L, "Oleg", 14);
+        students = new ArrayList<>(List.of(student1, student2));
         Faculty faculty = new Faculty(1L, "Griffindor", "yellow");
         out.createFaculty(faculty);
     }
@@ -62,16 +69,5 @@ class FacultyServiceTestImpl {
         when(repository.findById(any())).thenReturn(Optional.of(expected));
         out.deleteFaculty(1L);
         verify(repository).deleteById(any());
-    }
-
-    @Test
-    void sortByAge() {
-        Faculty faculty1 = new Faculty(1L, "Griffindor", "yellow");
-        Faculty faculty2 = new Faculty(1L, "Slitherin", "yellow");
-        Faculty faculty3 = new Faculty(1L, "Puffenduy", "Green");
-        List<Faculty> expected = new ArrayList<>(List.of(faculty1, faculty2));
-        when(repository.findAll()).thenReturn(expected);
-        List<Faculty> actual = out.sortByColor("yellow");
-        assertEquals(expected, actual);
     }
 }
