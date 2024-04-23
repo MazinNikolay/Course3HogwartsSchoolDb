@@ -17,7 +17,7 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     @JsonBackReference
-    @JsonIgnore
+    @Json
     private Faculty faculty;
 
     private String name;
