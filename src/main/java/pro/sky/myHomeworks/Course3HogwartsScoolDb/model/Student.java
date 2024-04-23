@@ -1,6 +1,7 @@
 package pro.sky.myHomeworks.Course3HogwartsScoolDb.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     @JsonBackReference
+    @JsonIgnore
     private Faculty faculty;
 
     private String name;
